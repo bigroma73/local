@@ -1,0 +1,47 @@
+--- git/lib/dvb/epgcache.h	2011-08-25 20:48:16.000000000 +0300
++++ epgcache.h	2011-10-24 01:52:07.000000000 +0300
+@@ -323,6 +323,7 @@
+ 
+ 	unsigned int enabledSources;
+ 
++	int onid_blacklist[10];
+ 	eventCache eventDB;
+ 	updateMap channelLastUpdated;
+ 	static pthread_mutex_t cache_lock, channel_map_lock;
+--- git/lib/dvb/epgcache.cpp	2011-10-24 01:42:56.000000000 +0300
++++ epgcache.cpp	2011-10-29 00:18:25.000000000 +0300
+@@ -242,6 +242,23 @@
+ 	CONNECT(eDVBLocalTimeHandler::getInstance()->m_timeUpdated, eEPGCache::timeUpdated);
+ 	CONNECT(cleanTimer->timeout, eEPGCache::cleanLoop);
+ 
++	char sss[8];
++	int i;
++	FILE  *onid_file=fopen("/etc/blacklist.onid","r");
++	if (onid_file != 0)
++	{
++		for(i=0;i<10;i++)
++		{
++			if(fgets(sss,8,onid_file) == NULL)
++				break;
++			sss[6]='\0';
++			if(sscanf(sss, "%x", &onid_blacklist[i])!=1)
++				break;
++		}
++		if(i < 10)
++			onid_blacklist[i] = 0;
++		fclose(onid_file);
++	}
+ 	ePtr<eDVBResourceManager> res_mgr;
+ 	eDVBResourceManager::getInstance(res_mgr);
+ 	if (!res_mgr)
+@@ -609,6 +626,10 @@
+ 			eit_event->start_time_5,
+ 			&event_hash);
+ 
++		int m_i;
++		for(m_i = 0;(m_i < 10 && onid_blacklist[m_i]);m_i++)
++			if (onid_blacklist[m_i] == onid)
++				goto next;
+ 		if ( (TM != 3599) &&		// NVOD Service
+ 		     (now <= (TM+duration)) &&	// skip old events
+ 		     (TM < (now+14*24*60*60)) &&	// no more than 2 weeks in future

@@ -1,0 +1,13 @@
+diff -Naur 1/lib/dvb/epgcache.cpp 2/lib/dvb/epgcache.cpp
+--- 1/lib/dvb/epgcache.cpp	2011-10-14 10:49:22.000000000 +0300
++++ 2/lib/dvb/epgcache.cpp	2011-10-16 23:21:15.000000000 +0300
+@@ -609,6 +609,9 @@
+ 			eit_event->start_time_5,
+ 			&event_hash);
+ 
++		if (onid == 112)
++			goto next;
++
+ 		if ( (TM != 3599) &&		// NVOD Service
+ 		     (now <= (TM+duration)) &&	// skip old events
+ 		     (TM < (now+14*24*60*60)) &&	// no more than 2 weeks in future

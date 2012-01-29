@@ -1,0 +1,13 @@
+diff -Naur new/lib/dvb/epgcache.cpp git/lib/dvb/epgcache.cpp
+--- new/lib/dvb/epgcache.cpp	2011-08-25 20:48:16.000000000 +0300
++++ git/lib/dvb/epgcache.cpp	2011-08-27 19:07:19.000000000 +0300
+@@ -615,6 +615,9 @@
+ 		if ( TM != 3599 && (TM+duration < now || TM > now+14*24*60*60) )
+ 			goto next;
+ 
++		if ( onid == 1714 && (TM + duration < now || duration == (24*3600-1))) // ignore wrong NowNext from Platforma HD
++    		goto next;
++
+ 		if ( now <= (TM+duration) || TM == 3599 /*NVOD Service*/ )  // old events should not be cached
+ 		{
+ 			__u16 event_id = HILO(eit_event->event_id);

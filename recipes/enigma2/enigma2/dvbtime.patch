@@ -1,0 +1,11 @@
+--- git/lib/dvb/dvbtime.cpp	2011-08-25 20:48:16.000000000 +0300
++++ new/lib/dvb/dvbtime.cpp	2011-10-30 02:48:09.000000000 +0300
+@@ -475,7 +475,7 @@
+ 				case iDVBChannel::state_ok:
+ 					eDebug("[eDVBLocalTimerHandler] channel %p running", chan);
+ 					m_updateNonTunedTimer->stop();
+-					if (m_use_dvb_time) {
++					if (m_use_dvb_time || (time(NULL) < 24*60*60) ) {
+ 						it->second.tdt = new TDT(it->second.channel);
+ 						it->second.tdt->start();
+ 					}
