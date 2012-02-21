@@ -1,5 +1,5 @@
 DESCRIPTION = "Enigma2 is an experimental, but useful framebuffer-based frontend for DVB functions"
-MAINTAINER = "Felix Domke <tmbinc@elitedvb.net>"
+MAINTAINER = "OpenPLi team <info@openpli.org>"
 DEMUXTOOL = "${@["replex","projectx"][bb.data.getVar("TARGET_FPU",d,1) == 'hard']}"
 DEPENDS = "jpeg libungif libmad libpng libsigc++-1.2 gettext-native \
 	dreambox-dvbincludes freetype libdvbsi++ python python-twisted swig-native  \
@@ -56,13 +56,6 @@ RDEPENDS_${PN} += "${@["gst-plugin-ivorbisdec","gst-plugin-vorbis"][bb.data.getV
 
 RDEPENDS_enigma2_append_dm7020 = " gst-plugin-ossaudio"
 
-# FPU hardware should be able to downmix DTS
-RRECOMMENDS_${PN} += "${@["","gst-plugin-dtsdec"][bb.data.getVar("TARGET_FPU",d,1) == 'hard']}"
-
-# 'forward depends' - no two providers can have the same PACKAGES_DYNAMIC, however both
-# enigma2 and enigma2-plugins produce enigma2-plugin-*.
-#DEPENDS += "enigma2-plugins"
-#PACKAGES_DYNAMIC = "enigma2-plugin-*"
 
 DESCRIPTION_append_enigma2-plugin-extensions-cutlisteditor = "enables you to cut your movies."
 RDEPENDS_enigma2-plugin-extensions-cutlisteditor = "aio-grab"
@@ -101,6 +94,8 @@ SRC_URI = "git://openpli.git.sourceforge.net/gitroot/openpli/enigma2;protocol=gi
 			file://dvbtime.patch \
 			file://spinner.patch \
 			file://menu.patch \
+			file://fe.patch \
+#			file://ch_num.patch \
 "
 # SRC_URI = "git://${HOME}/pli/enigma2;protocol=file"
 

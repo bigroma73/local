@@ -1,0 +1,10 @@
+--- /home/bigroma/plugin.py	2012-02-02 17:30:21.000000000 +0400
++++ git/lib/python/Plugins/Extensions/MediaPlayer/plugin.py	2012-02-02 17:54:41.000000000 +0400
+@@ -1067,6 +1067,6 @@
+ from Plugins.Plugin import PluginDescriptor
+ def Plugins(**kwargs):
+ 	return [
+-		PluginDescriptor(name = "MediaPlayer", description = "Play back media files", where = PluginDescriptor.WHERE_PLUGINMENU, needsRestart = False, fnc = main),
++		PluginDescriptor(name = "MediaPlayer", description = "Play back media files", where = PluginDescriptor.WHERE_MENU,needsRestart = False, fnc = menu),
+ 		PluginDescriptor(name = "MediaPlayer", where = PluginDescriptor.WHERE_FILESCAN, needsRestart = False, fnc = filescan)
+ 	]

@@ -1,0 +1,604 @@
+From 350ad74d5469cee164bb62ac9cedcbf64d94e672 Mon Sep 17 00:00:00 2001
+From: Artur <something@somewhere.com>
+Date: Wed, 25 Jan 2012 17:25:06 +0100
+Subject: [PATCH] Allow changing channel numbers
+
+Channels are numbered by counting from 1 forwards. Allow interrupting this method by adding a line in the bouquet file with the format #CHANNEL number.
+
+Channel numbers are now stored in eServiceReference so we no longer need to loop through all the bouquets to generate these numbers. Update the channel numbers only when we add/modify/remove services.
+---
+ lib/dvb/db.cpp                                  |  116 +++++++++++++++++++++-
+ lib/dvb/db.h                                    |    4 +-
+ lib/python/Components/Renderer/ChannelNumber.py |   32 +-----
+ lib/python/Components/ServiceList.py            |    6 +
+ lib/python/Components/Sources/CurrentService.py |    9 ++
+ lib/python/Screens/ChannelSelection.py          |    3 +
+ lib/python/Screens/InfoBarGenerics.py           |   37 ++++----
+ lib/service/iservice.h                          |   30 ++++++
+ lib/service/listboxservice.cpp                  |   21 ++---
+ lib/service/service.cpp                         |    2 +
+ 10 files changed, 197 insertions(+), 63 deletions(-)
+
+diff --git a/lib/dvb/db.cpp b/lib/dvb/db.cpp
+index 99ffddb..db2a79c 100644
+--- a/lib/dvb/db.cpp
++++ b/lib/dvb/db.cpp
+@@ -28,6 +28,8 @@ RESULT eBouquet::addService(const eServiceReference &ref, eServiceReference befo
+ 	}
+ 	else
+ 		m_services.push_back(ref);
++	eDebug("eBouquet addService");
++	eDVBDB::getInstance()->renumberBouquet();
+ 	return 0;
+ }
+ 
+@@ -38,6 +40,8 @@ RESULT eBouquet::removeService(const eServiceReference &ref)
+ 	if ( it == m_services.end() )
+ 		return -1;
+ 	m_services.erase(it);
++	eDebug("eBouquet addService");
++	eDVBDB::getInstance()->renumberBouquet();
+ 	return 0;
+ }
+ 
+@@ -70,6 +74,7 @@ RESULT eBouquet::moveService(const eServiceReference &ref, unsigned int pos)
+ 		else
+ 			std::iter_swap(source--, source);
+ 	}
++	eDVBDB::getInstance()->renumberBouquet();
+ 	return 0;
+ }
+ 
+@@ -83,13 +88,19 @@ RESULT eBouquet::flushChanges()
+ 		goto err;
+ 	for (list::iterator i(m_services.begin()); i != m_services.end(); ++i)
+ 	{
+-		eServiceReference tmp = *i;
++		eServiceReference &tmp = *i;
+ 		std::string str = tmp.path;
+ 		if ( fprintf(f, "#SERVICE %s\r\n", tmp.toString().c_str()) < 0 )
+ 			goto err;
+ 		if ( i->name.length() )
+ 			if ( fprintf(f, "#DESCRIPTION %s\r\n", i->name.c_str()) < 0 )
+ 				goto err;
++		if( tmp.isUserChannel() && ( !(tmp.flags & (eServiceReference::isMarker|eServiceReference::isDirectory)) ||
++			(tmp.flags & eServiceReference::isNumberedMarker)) )
++		{
++			if ( fprintf(f, "#CHANNEL %i\r\n", tmp.getChannelNum() ) < 0 )
++				goto err;
++		}
+ 	}
+ 	fsync(fileno(f));
+ 	fclose(f);
+@@ -610,13 +621,13 @@ void eDVBDB::saveServicelist()
+ 	saveServicelist(eEnv::resolve("${sysconfdir}/enigma2/lamedb").c_str());
+ }
+ 
+-void eDVBDB::loadBouquet(const char *path)
++int eDVBDB::loadBouquet(const char *path, int startChannelNum)
+ {
+ 	std::string bouquet_name = path;
+ 	if (!bouquet_name.length())
+ 	{
+ 		eDebug("Bouquet load failed.. no path given..");
+-		return;
++		return startChannelNum;
+ 	}
+ 	size_t pos = bouquet_name.rfind('/');
+ 	if ( pos != std::string::npos )
+@@ -624,7 +635,7 @@ void eDVBDB::loadBouquet(const char *path)
+ 	if (bouquet_name.empty())
+ 	{
+ 		eDebug("Bouquet load failed.. no filename given..");
+-		return;
++		return startChannelNum;
+ 	}
+ 	eBouquet &bouquet = m_bouquets[bouquet_name];
+ 	bouquet.m_filename = bouquet_name;
+@@ -650,11 +661,12 @@ void eDVBDB::loadBouquet(const char *path)
+ 			bouquet.m_bouquet_name="Bouquets (Radio)";
+ 			bouquet.flushChanges();
+ 		}
+-		return;
++		return startChannelNum;
+ 	}
+ 	int entries=0;
+ 	char line[256];
+ 	bool read_descr=false;
++	bool read_chan_num=false;
+ 	eServiceReference *e = NULL;
+ 	while (1)
+ 	{
+@@ -703,10 +715,20 @@ void eDVBDB::loadBouquet(const char *path)
+ 						snprintf(buf, 256, "FROM BOUQUET \"%s\" ORDER BY bouquet", path.c_str());
+ 						tmp.path = buf;
+ 					}
+-					loadBouquet(path.c_str());
++					startChannelNum = loadBouquet(path.c_str(), startChannelNum);
+ 				}
+ 				list.push_back(tmp);
+ 				e = &list.back();
++				if( !(tmp.flags & (eServiceReference::isMarker|eServiceReference::isDirectory)) ||
++					(tmp.flags & eServiceReference::isNumberedMarker) )
++				{
++					e->channel_num  = startChannelNum++;
++					read_chan_num=true;
++				}
++				else
++				{
++					e->channel_num  = -1;
++				}
+ 				read_descr=true;
+ 				++entries;
+ 			}
+@@ -716,6 +738,14 @@ void eDVBDB::loadBouquet(const char *path)
+ 				e->name = line+offs;
+ 				read_descr=false;
+ 			}
++			else if (read_chan_num && !strncmp(line, "#CHANNEL", 8))
++			{
++				int offs = line[8] == ':' ? 10 : 9;
++				int chan_num = atoi(line+offs);
++				e->setChannelNum( chan_num );
++				startChannelNum = chan_num + 1; //startChannelNumber is always the next channel number to use
++				read_chan_num=false;
++			}
+ 			else if (!strncmp(line, "#NAME ", 6))
+ 				bouquet.m_bouquet_name=line+6;
+ 			continue;
+@@ -723,6 +753,7 @@ void eDVBDB::loadBouquet(const char *path)
+ 	}
+ 	fclose(fp);
+ 	eDebug("%d entries in Bouquet %s", entries, bouquet_name.c_str());
++	return startChannelNum;
+ }
+ 
+ void eDVBDB::reloadBouquets()
+@@ -765,6 +796,79 @@ void eDVBDB::reloadBouquets()
+ 	}
+ }
+ 
++void eDVBDB::renumberBouquet()
++{
++	renumberBouquet( m_bouquets["bouquets.tv"] );
++	renumberBouquet( m_bouquets["bouquets.radio"] );
++}
++
++int eDVBDB::renumberBouquet(eBouquet &bouquet, int startChannelNum)
++{
++	std::list<eServiceReference> &list = bouquet.m_services;
++	eDebug("Renumbering...");
++	for (std::list<eServiceReference>::iterator it = list.begin(); it != list.end(); ++it)
++	{
++		eServiceReference &tmp = *it;
++		if ( tmp.flags&eServiceReference::canDescent )
++		{
++			size_t pos = tmp.path.rfind('/');
++			char buf[256];
++			std::string path = tmp.path;
++			if ( pos != std::string::npos )
++				path.erase(0, pos+1);
++			if (path.empty())
++			{
++				eDebug("Bouquet load failed.. no filename given..");
++				continue;
++			}
++			pos = path.find("FROM BOUQUET ");
++			if (pos != std::string::npos)
++			{
++				char endchr = path[pos+13];
++				if (endchr != '"')
++				{
++					eDebug("ignore invalid bouquet '%s' (only \" are allowed)", tmp.toString().c_str());
++					continue;
++				}
++				char *beg = &path[pos+14];
++				char *end = strchr(beg, endchr);
++				path.assign(beg, end - beg);
++			}
++			else
++			{
++				snprintf(buf, 256, "FROM BOUQUET \"%s\" ORDER BY bouquet", path.c_str());
++			}
++
++			if (!path.length())
++			{
++				continue;
++			}
++			pos = path.rfind('/');
++			if ( pos != std::string::npos )
++				path.erase(0, pos+1);
++			if (path.empty())
++			{
++				continue;
++			}
++			eBouquet &subBouquet = m_bouquets[path];
++			startChannelNum = renumberBouquet(subBouquet, startChannelNum);
++		}
++
++		if( !(tmp.flags & (eServiceReference::isMarker|eServiceReference::isDirectory)) ||
++		   (tmp.flags & eServiceReference::isNumberedMarker) )
++		{
++			if( tmp.isUserChannel() )
++			{
++				startChannelNum = tmp.getChannelNum();
++			}
++			eDebug("Current number '%d' renumbering to '%d' channel '%s'", tmp.channel_num, startChannelNum, tmp.getName().c_str());
++			tmp.channel_num = startChannelNum++;
++			eDebug("Updated number to '%d' channel '%s'", tmp.channel_num, tmp.getName().c_str());
++		}
++	}
++	return startChannelNum;
++}
++
+ eDVBDB *eDVBDB::instance;
+ 
+ using namespace xmlcc;
+diff --git a/lib/dvb/db.h b/lib/dvb/db.h
+index e1d39ff..2634413 100644
+--- a/lib/dvb/db.h
++++ b/lib/dvb/db.h
+@@ -60,12 +60,14 @@ public:
+ 
+ 	RESULT getBouquet(const eServiceReference &ref, eBouquet* &bouquet);
+ //////
+-	void loadBouquet(const char *path);
++	int loadBouquet(const char *path, int startChannelNum = 1);
+ 	eServiceReference searchReference(int tsid, int onid, int sid);
+ 	void searchAllReferences(std::vector<eServiceReference> &result, int tsid, int onid, int sid);
+ 	eDVBDB();
+ 	virtual ~eDVBDB();
++	int renumberBouquet(eBouquet &bouquet, int startChannelNum = 1);
+ #endif
++	void renumberBouquet();
+ 	void loadServicelist(const char *filename);
+ 	static eDVBDB *getInstance() { return instance; }
+ 	void reloadServicelist();
+diff --git a/lib/python/Components/Renderer/ChannelNumber.py b/lib/python/Components/Renderer/ChannelNumber.py
+index 5e37543..d799443 100644
+--- a/lib/python/Components/Renderer/ChannelNumber.py
++++ b/lib/python/Components/Renderer/ChannelNumber.py
+@@ -1,5 +1,5 @@
+ from Components.VariableText import VariableText
+-from enigma import eLabel, iServiceInformation, eServiceReference, eServiceCenter
++from enigma import eLabel
+ from Renderer import Renderer
+ 
+ #
+@@ -9,34 +9,14 @@ class ChannelNumber(Renderer, VariableText):
+ 	def __init__(self):
+ 		Renderer.__init__(self)
+ 		VariableText.__init__(self)
+-		self.list = []
+-		self.getList()
+ 
+ 	GUI_WIDGET = eLabel
+ 
+ 	def changed(self, what):
+-		service = self.source.service
+-		info = service and service.info()
+-		if info is None:
+-			self.text = ""
+-			return
+-		name = info.getName().replace('\xc2\x86', '').replace('\xc2\x87', '')
+-		if name in self.list:
+-			for idx in range(1, len(self.list)):
+-				if name == self.list[idx-1]:
+-					self.text = str(idx)
+-					break
+-		else:
++		service = self.source.serviceref
++		num = service and service.getChannelNum() or -1
++		if -1 == num:
+ 			self.text = '---'
+-
+-	def getList(self):
+-		serviceHandler = eServiceCenter.getInstance()
+-		services = serviceHandler.list(eServiceReference('1:7:1:0:0:0:0:0:0:0:(type == 1) || (type == 17) || (type == 195) || (type == 25) FROM BOUQUET "bouquets.tv" ORDER BY bouquet'))
+-		bouquets = services and services.getContent("SN", True)
+-		for bouquet in bouquets:
+-			services = serviceHandler.list(eServiceReference(bouquet[0]))
+-			channels = services and services.getContent("SN", True)
+-			for channel in channels:
+-				if not channel[0].startswith("1:64:"):
+-					self.list.append(channel[1].replace('\xc2\x86', '').replace('\xc2\x87', ''))
++		else:
++			self.text = str(num)
+ 
+diff --git a/lib/python/Components/ServiceList.py b/lib/python/Components/ServiceList.py
+index 2ef765a..7ac2115 100644
+--- a/lib/python/Components/ServiceList.py
++++ b/lib/python/Components/ServiceList.py
+@@ -196,6 +196,12 @@ class ServiceList(HTMLComponent, GUIComponent):
+ 			self.l.sort()
+ 		self.selectionChanged()
+ 
++	def resetRoot(self):
++		curIdx = self.instance.getCurrentIndex()
++		self.l.setRoot(self.root, False)
++		self.l.sort()
++		self.instance.moveSelectionTo(curIdx)
++
+ 	def removeCurrent(self):
+ 		self.l.removeCurrent()
+ 
+diff --git a/lib/python/Components/Sources/CurrentService.py b/lib/python/Components/Sources/CurrentService.py
+index 133f863..2beeb07 100644
+--- a/lib/python/Components/Sources/CurrentService.py
++++ b/lib/python/Components/Sources/CurrentService.py
+@@ -2,6 +2,7 @@ from Components.PerServiceDisplay import PerServiceBase
+ from enigma import iPlayableService
+ from Source import Source
+ from Components.Element import cached
++import NavigationInstance
+ 
+ class CurrentService(PerServiceBase, Source):
+ 	def __init__(self, navcore):
+@@ -29,6 +30,14 @@ class CurrentService(PerServiceBase, Source):
+ 
+ 	service = property(getCurrentService)
+ 
++	@cached
++	def getCurrentServiceRef(self):
++		if NavigationInstance.instance is not None:
++			return NavigationInstance.instance.getCurrentlyPlayingServiceReference()
++		return None
++
++	serviceref = property(getCurrentServiceRef)
++
+ 	def destroy(self):
+ 		PerServiceBase.destroy(self)
+ 		Source.destroy(self)
+diff --git a/lib/python/Screens/ChannelSelection.py b/lib/python/Screens/ChannelSelection.py
+index 9ff8d16..7558e8e 100644
+--- a/lib/python/Screens/ChannelSelection.py
++++ b/lib/python/Screens/ChannelSelection.py
+@@ -679,6 +679,7 @@ class ChannelSelectionEdit:
+ 				self.bouquetNumOffsetCache = { }
+ 				mutableList.flushChanges() #FIXME dont flush on each single removed service
+ 				self.servicelist.removeCurrent()
++				self.servicelist.resetRoot()
+ 
+ 	def addServiceToBouquet(self, dest, service=None):
+ 		mutableList = self.getMutableList(dest)
+@@ -696,6 +697,7 @@ class ChannelSelectionEdit:
+ 				pos2 = str2.find("FROM BOUQUET")
+ 				if pos1 != -1 and pos2 != -1 and str1[pos1:] == str2[pos2:]:
+ 					self.servicelist.addService(service)
++				self.servicelist.resetRoot()
+ 
+ 	def toggleMoveMode(self):
+ 		if self.movemode:
+@@ -710,6 +712,7 @@ class ChannelSelectionEdit:
+ 			cur_root = self.getRoot()
+ 			if cur_root and cur_root == self.bouquet_root:
+ 				self.bouquetNumOffsetCache = { }
++			self.servicelist.resetRoot()
+ 		else:
+ 			self.mutableList = self.getMutableList()
+ 			self.movemode = True
+diff --git a/lib/python/Screens/InfoBarGenerics.py b/lib/python/Screens/InfoBarGenerics.py
+index 903be58..8db8135 100644
+--- a/lib/python/Screens/InfoBarGenerics.py
++++ b/lib/python/Screens/InfoBarGenerics.py
+@@ -335,32 +335,35 @@ class InfoBarNumberZap:
+ 	def searchNumberHelper(self, serviceHandler, num, bouquet):
+ 		servicelist = serviceHandler.list(bouquet)
+ 		if not servicelist is None:
+-			while num:
++			serviceIterator = servicelist.getNext()
++			while serviceIterator.valid():
++				if num == serviceIterator.getChannelNum():
++					return serviceIterator
+ 				serviceIterator = servicelist.getNext()
+-				if not serviceIterator.valid(): #check end of list
+-					break
+-				playable = not (serviceIterator.flags & (eServiceReference.isMarker|eServiceReference.isDirectory)) or (serviceIterator.flags & eServiceReference.isNumberedMarker)
+-				if playable:
+-					num -= 1;
+-			if not num: #found service with searched number ?
+-				return serviceIterator, 0
+-		return None, num
++		return None
+ 
+ 	def zapToNumber(self, number):
+ 		bouquet = self.servicelist.bouquet_root
+ 		service = None
+ 		serviceHandler = eServiceCenter.getInstance()
+ 		if not config.usage.multibouquet.value:
+-			service, number = self.searchNumberHelper(serviceHandler, number, bouquet)
++			service = self.searchNumberHelper(serviceHandler, number, bouquet)
+ 		else:
+-			bouquetlist = serviceHandler.list(bouquet)
+-			if not bouquetlist is None:
+-				while number:
++			service = self.searchNumberHelper(serviceHandler, number, bouquet) #search the current bouqeut first
++			if service is None:
++				bouquetlist = serviceHandler.list(bouquet)
++				if not bouquetlist is None:
+ 					bouquet = bouquetlist.getNext()
+-					if not bouquet.valid(): #check end of list
+-						break
+-					if bouquet.flags & eServiceReference.isDirectory:
+-						service, number = self.searchNumberHelper(serviceHandler, number, bouquet)
++					while bouquet.valid():
++						if bouquet.flags & eServiceReference.isDirectory:
++							service = self.searchNumberHelper(serviceHandler, number, bouquet)
++							if service is not None:
++								playable = not (service.flags & (eServiceReference.isMarker|eServiceReference.isDirectory)) or (service.flags & eServiceReference.isNumberedMarker)
++								if not playable:
++									service = None
++								break
++						bouquet = bouquetlist.getNext()
++
+ 		if not service is None:
+ 			if self.servicelist.getRoot() != bouquet: #already in correct bouquet?
+ 				self.servicelist.clearPath()
+diff --git a/lib/service/iservice.h b/lib/service/iservice.h
+index d63dae4..ace4c48 100644
+--- a/lib/service/iservice.h
++++ b/lib/service/iservice.h
+@@ -82,28 +82,48 @@ public:
+ 
+ // only for override service names in bouquets or to give servicerefs a name which not have a
+ // real existing service ( for dvb eServiceDVB )
++// allow setting a channel number in a bouquet, -1 by default to represent no channel number present
+ #ifndef SWIG
+ 	std::string name;
++	int channel_num; //this is the channel number we use for displaying
++	bool is_user_channel_num; //this is the channel number we read from the config
+ #endif
+ 	std::string getName() const { return name; }
+ 	void setName( const std::string &n ) { name=n; }
+ 
++	int getChannelNum() const { return channel_num; }
++	bool isUserChannel() { return is_user_channel_num; }
++	void setChannelNum( int num ) //sets the user channel number, so that we will save this value
++	{
++		channel_num = num;
++		if( -1 == num )
++			is_user_channel_num = false;
++		else
++			is_user_channel_num = true;
++	}
++
+ 	eServiceReference()
+ 		: type(idInvalid), flags(0)
+ 	{
+ 		memset(data, 0, sizeof(data));
++		channel_num = -1;
++		is_user_channel_num = false;
+ 	}
+ #ifndef SWIG
+ 	eServiceReference(int type, int flags)
+ 		: type(type), flags(flags)
+ 	{
+ 		memset(data, 0, sizeof(data));
++		channel_num = -1;
++		is_user_channel_num = false;
+ 	}
+ 	eServiceReference(int type, int flags, int data0)
+ 		: type(type), flags(flags)
+ 	{
+ 		memset(data, 0, sizeof(data));
+ 		data[0]=data0;
++		channel_num = -1;
++		is_user_channel_num = false;
+ 	}
+ 	eServiceReference(int type, int flags, int data0, int data1)
+ 		: type(type), flags(flags)
+@@ -111,6 +131,8 @@ public:
+ 		memset(data, 0, sizeof(data));
+ 		data[0]=data0;
+ 		data[1]=data1;
++		channel_num = -1;
++		is_user_channel_num = false;
+ 	}
+ 	eServiceReference(int type, int flags, int data0, int data1, int data2)
+ 		: type(type), flags(flags)
+@@ -119,6 +141,8 @@ public:
+ 		data[0]=data0;
+ 		data[1]=data1;
+ 		data[2]=data2;
++		channel_num = -1;
++		is_user_channel_num = false;
+ 	}
+ 	eServiceReference(int type, int flags, int data0, int data1, int data2, int data3)
+ 		: type(type), flags(flags)
+@@ -128,6 +152,8 @@ public:
+ 		data[1]=data1;
+ 		data[2]=data2;
+ 		data[3]=data3;
++		channel_num = -1;
++		is_user_channel_num = false;
+ 	}
+ 	eServiceReference(int type, int flags, int data0, int data1, int data2, int data3, int data4)
+ 		: type(type), flags(flags)
+@@ -138,6 +164,8 @@ public:
+ 		data[2]=data2;
+ 		data[3]=data3;
+ 		data[4]=data4;
++		channel_num = -1;
++		is_user_channel_num = false;
+ 	}
+ 	operator bool() const
+ 	{
+@@ -148,6 +176,8 @@ public:
+ 		: type(type), flags(flags), path(path)
+ 	{
+ 		memset(data, 0, sizeof(data));
++		channel_num = -1;
++		is_user_channel_num = false;
+ 	}
+ 	eServiceReference(const std::string &string);
+ 	std::string toString() const;
+diff --git a/lib/service/listboxservice.cpp b/lib/service/listboxservice.cpp
+index 5b2d6c6..168be8c 100644
+--- a/lib/service/listboxservice.cpp
++++ b/lib/service/listboxservice.cpp
+@@ -4,6 +4,7 @@
+ #include <lib/dvb/epgcache.h>
+ #include <lib/dvb/pmt.h>
+ #include <lib/python/connections.h>
++#include <lib/dvb/db.h>
+ 
+ void eListboxServiceContent::addService(const eServiceReference &service, bool beforeCurrent)
+ {
+@@ -23,6 +24,8 @@ void eListboxServiceContent::addService(const eServiceReference &service, bool b
+ 		m_cursor_number=0;
+ 		m_listbox->entryAdded(0);
+ 	}
++	eDebug("eListboxServiceContent addService");
++	eDVBDB::getInstance()->renumberBouquet();
+ }
+ 
+ void eListboxServiceContent::removeCurrent()
+@@ -45,6 +48,8 @@ void eListboxServiceContent::removeCurrent()
+ 			m_list.erase(m_cursor++);
+ 			m_listbox->entryRemoved(m_cursor_number);
+ 		}
++		eDebug("eListboxServiceContent removeService");
++		eDVBDB::getInstance()->renumberBouquet();
+ 	}
+ }
+ 
+@@ -587,20 +592,10 @@ void eListboxServiceContent::paint(gPainter &painter, eWindowStyle &style, const
+ 						continue;
+ 					if (area.width() <= 0)
+ 						continue; // no point in going on if we won't paint anything
+-
++					if( -1 == m_cursor->getChannelNum() )
++						continue;
+ 					char bla[10];
+-					/* how we can do this better? :) */
+-					int markers_before=0;
+-					{
+-						list::iterator tmp=m_cursor;
+-						while(tmp != m_list.begin())
+-						{
+-							--tmp;
+-							if (tmp->flags & eServiceReference::isMarker && !(tmp->flags & eServiceReference::isNumberedMarker))
+-								++markers_before;
+-						}
+-					}
+-					sprintf(bla, "%d", m_numberoffset + m_cursor_number + 1 - markers_before);
++					sprintf(bla, "%d", m_cursor->getChannelNum() );
+ 					text = bla;
+ 					flags|=gPainter::RT_HALIGN_RIGHT;
+ 					break;
+diff --git a/lib/service/service.cpp b/lib/service/service.cpp
+index 0d528b1..b3dc460 100644
+--- a/lib/service/service.cpp
++++ b/lib/service/service.cpp
+@@ -55,6 +55,8 @@ eServiceReference::eServiceReference(const std::string &string)
+ {
+ 	const char *c=string.c_str();
+ 	int pathl=0;
++	channel_num = -1;
++	is_user_channel_num = false;
+ 
+ 	if (!string.length())
+ 		type = idInvalid;
+-- 
+1.7.5.4
+
