@@ -1,0 +1,675 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PliPanel\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-07-29 01:13+0100\n"
+"PO-Revision-Date: 2012-03-08 11:56+0200\n"
+"Last-Translator: 2boom <4bob@ua.fm>\n"
+"Language-Team:  <4bob@ua.fm>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Su"
+msgstr "Вс"
+
+msgid "Mo"
+msgstr "Пн"
+
+msgid "Tu"
+msgstr "Вт"
+
+msgid "We"
+msgstr "Ср"
+
+msgid "Th"
+msgstr "Чт"
+
+msgid "Fr"
+msgstr "Пт"
+
+msgid "Sa"
+msgstr "Сб"
+
+msgid "Jan."
+msgstr "Янв."
+
+msgid "Feb."
+msgstr "Фев."
+
+msgid "Mar."
+msgstr "Март"
+
+msgid "Apr."
+msgstr "Апр."
+
+msgid "May"
+msgstr "Май"
+
+msgid "Jun."
+msgstr "Июнь"
+
+msgid "Jul."
+msgstr "Июль"
+
+msgid "Aug."
+msgstr "Авг."
+
+msgid "Sep."
+msgstr "Сен."
+
+msgid "Oct."
+msgstr "Окт."
+
+msgid "Nov."
+msgstr "Ноя."
+
+msgid "Dec."
+msgstr "Дек."
+
+msgid "Every"
+msgstr "Каждый период"
+
+msgid "Command"
+msgstr "Задание"
+
+msgid "Day of week"
+msgstr "День недели"
+
+msgid "Month"
+msgstr "Месяц"
+
+msgid "Day of month"
+msgstr "Число"
+
+msgid "Hour"
+msgstr "Часы"
+
+msgid "Min"
+msgstr "Минуты"
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "Remove tabs"
+msgstr "Удалить"
+
+msgid "Add tabs"
+msgstr "Добавить"
+
+msgid "Is a time-based job scheduler"
+msgstr "Временно-орентированый менеджер заданий"
+
+msgid "Cron Manager"
+msgstr "Управление Cron"
+
+msgid "30 min"
+msgstr "30 мин"
+
+msgid "60 min"
+msgstr "60 мин"
+
+msgid "120 min"
+msgstr "120 мин"
+
+msgid "180 min"
+msgstr "180 мин"
+
+msgid "240 min"
+msgstr "240 мин"
+
+msgid "NtpTime Updater"
+msgstr "Обновление NtpTime"
+
+msgid "Set time to update"
+msgstr "Установить период обновления"
+
+msgid "Set Transponder time update"
+msgstr "Обновлять время с транспондера"
+
+msgid "Update Now"
+msgstr "Синхронизировать"
+
+msgid "Synchronized"
+msgstr "Синхронизировано"
+
+msgid "update time from internet"
+msgstr "Синхронизирование времени через интернет"
+
+msgid "Not Active"
+msgstr "Не активен"
+
+msgid "Not Installed"
+msgstr "Не установлен"
+
+msgid "Cardserver:"
+msgstr "Кардсервер:"
+
+msgid "Softcam:"
+msgstr "Эмулятор:"
+
+msgid "Total: %s Kb  Free: %s Kb"
+msgstr "Всего: %s Kb  Свободно: %s Kb"
+
+msgid "%s  %s  (%03d MB free)\n"
+msgstr "%s  %s  (%03d MB)\n"
+
+msgid "%s  %s  (%d.%03d GB free)\n"
+msgstr "%s  %s  (%d.%03d GB)\n"
+
+msgid "E-Panel for OpenPli Ver:"
+msgstr "Е-Панель для OpenPli Вер."
+
+msgid "Driver Version:"
+msgstr "Версия драйвера:"
+
+msgid "Last Upgrade:"
+msgstr "Обновление:"
+
+msgid "Kernel Version:"
+msgstr "Версия ядра:"
+
+msgid "Image:"
+msgstr "Образ:"
+
+msgid "Hardware:"
+msgstr "Устройство:"
+
+msgid "Detected NIMs:"
+msgstr "Тюнеры:"
+
+msgid "Devices:"
+msgstr "Устройства:"
+
+msgid "Flash:"
+msgstr "Осн. память:"
+
+msgid "Swap:"
+msgstr "Подкачка:"
+
+msgid "Memory:"
+msgstr "Память:"
+
+msgid " newcamd.list"
+msgstr " newcamd.list"
+
+msgid "Applying"
+msgstr "Применяем"
+
+msgid "server: %s"
+msgstr "сервер: %s"
+
+msgid "MgCamd Restarted"
+msgstr "MgCamd Перезапущен"
+
+msgid "Restart MgCamd"
+msgstr "Рестарт MgCamd"
+
+msgid "Switch newcamd.list with remote conrol"
+msgstr "Переключение newcamd.list с помощью ДУ"
+
+msgid "newcamd.list Switcher"
+msgstr "newcamd.list Переключатель"
+
+msgid "Active Profile:"
+msgstr "Активный Профиль:"
+
+msgid "BackUp"
+msgstr "Сохранить"
+
+msgid "Back-up settings (sets, keys, boquets)"
+msgstr "Сохранение настроек (установки, ключи, фавориты)"
+
+msgid "Back-up settings on USB"
+msgstr "Сохранение установок на USB"
+
+msgid "Back-up settings on HDD"
+msgstr "Сохранение установок на HDD"
+
+msgid "Start, Stop, Restart system services"
+msgstr "Остановка, Запуск, Перезапуск системных сервисов"
+
+msgid "Service Manager"
+msgstr "Управление сервисами"
+
+msgid "Synchronization activated"
+msgstr "Синхронизация включена"
+
+msgid "Synchronization Now"
+msgstr "Синхронизирую"
+
+msgid "install extensions from feed"
+msgstr "установка расширений с сервера имиджа"
+
+msgid "install extensions"
+msgstr "Установка расширений"
+
+msgid "%s is installed"
+msgstr "%s установлен"
+
+msgid "install & remove ipk, tar.gz, bh.tgz packets"
+msgstr "установка & удаление ipk, tar.gz, bh.tgz, nab.tgz пакетов"
+
+msgid "%s is UnInstalled"
+msgstr "%s удален"
+
+msgid "Install ipk packets"
+msgstr "установка ipk пакетов"
+
+msgid "Install tar.gz, bh.tgz, nab.tgz"
+msgstr "установка tar.gz, bh.tgz, nab.tgz"
+
+msgid "*.tar.gz & *.bh.tgz & *.ipk removed"
+msgstr "*.tar.gz & *.bh.tgz & *.ipk удалены"
+
+msgid "remove *.ipk & *.tar.gz & *.bh.tgz & *.nab.tgz from /tmp"
+msgstr "очистка /tmp, удаление *.ipk & *.tar.gz & *.bh.tgz & *.nab.tgz"
+
+msgid "clear /tmp"
+msgstr "Очистка /tmp"
+
+msgid "remove & advanced remove ipk packets"
+msgstr "удаление и принудительное удаление ipk пакетов"
+
+msgid "ipk packets remover"
+msgstr "Удаление ipk пакетов"
+
+msgid "-force-overwrite install ipk packets from /tmp"
+msgstr "-force-overwrite установка ipk пакетов из /tmp"
+
+msgid "advanced ipk packets installer"
+msgstr "Расширеная установка ipk пакетов"
+
+msgid "install ipk packets from /tmp"
+msgstr "установка ipk пакетов из /tmp"
+
+msgid "ipk packets installer"
+msgstr "Установка ipk пакетов"
+
+msgid "install bh.tgz, tar.gz, nab.tgz from /tmp"
+msgstr "установка bh.tgz, tar.gz, nab.tgz из /tmp"
+
+msgid "bh.tgz, tar.gz, nab.tgz installer"
+msgstr "Установка bh.tgz, tar.gz, nab.tgz"
+
+msgid "simple tools for Pli image"
+msgstr "панель управления, утилиты и инструменты для PLI имиджей"
+
+msgid "E-Panel for Pli"
+msgstr "E-панель для PLI имиджей"
+
+msgid "HDD go sleep"
+msgstr "HDD ушел спать"
+
+msgid "HDD sleep"
+msgstr "HDD сон"
+
+msgid "Name of keyfile"
+msgstr "Имя файла ключей"
+
+msgid "Add own biss in keyfile"
+msgstr "Добавлять собственый файл ключей"
+
+msgid "Path to save keyfile"
+msgstr "Путь сохранения файла ключей"
+
+msgid "Saved"
+msgstr "Сохранено"
+
+msgid "Changelog"
+msgstr "Изменения"
+
+msgid "%s downloaded Successfull"
+msgstr "%s загружен"
+
+msgid "%s downloaded UnSuccessfull"
+msgstr "%s не загружен"
+
+msgid "SoftCam.Key Updater"
+msgstr "Загрузчик SoftCam.Key"
+
+msgid "update Softcam.key from internet"
+msgstr "загрузка Softcam.key из internet"
+
+msgid "Download Satellites.xml from internet"
+msgstr "Обновление Satellites.xml через internet"
+
+msgid "Satellites.xml Downloader"
+msgstr "Обновление Satellites.xml"
+
+msgid "system info (free, dh -f)"
+msgstr "системная информация (free, dh -f)"
+
+msgid "System info"
+msgstr "Системная информация"
+
+msgid "satellite.xml downloaded UnSuccessfull"
+msgstr "Ошибка загрузки satellite.xml"
+
+msgid "satellite.xml downloaded Successfull"
+msgstr "satellite.xml загружен"
+
+msgid "Failed remove"
+msgstr "Ошибка удаления"
+
+msgid "%s.gz created in /tmp"
+msgstr "%s.gz создан в /tmp"
+
+msgid "Removed All Crashlog Files"
+msgstr "Все файлы удалены"
+
+msgid "Removed %s"
+msgstr "Удален %s"
+
+msgid "Remove All"
+msgstr "Удалить все"
+
+msgid "Remove"
+msgstr "Удалить"
+
+msgid "View"
+msgstr "Просмотреть"
+
+msgid "view & remove crashlog files"
+msgstr "просмотр и удаление файлов креша"
+
+msgid "Crashlog viewer"
+msgstr "Просмотрщик Крешлогов"
+
+msgid "size: %s  %s"
+msgstr "размер: %s  %s"
+
+msgid "System Tools"
+msgstr "Системные Утилиты"
+
+msgid "UnLoaded %s"
+msgstr "Удален %s"
+
+msgid "Loaded %s"
+msgstr "Загружен %s"
+
+msgid "LsMod"
+msgstr "Драйвера"
+
+msgid "Reboot"
+msgstr "Перезагрузка"
+
+msgid "Load/UnLoad"
+msgstr "Включить/Отключить"
+
+msgid "load & unload kernel modules"
+msgstr "загрузка и удаление драйверов"
+
+msgid "Kernel Modules Manager"
+msgstr "Управление драйверами"
+
+msgid "kernel modules manager, manage ftp, samba ..."
+msgstr "управление драйверами, ftp, samba ..."
+
+msgid "Install All"
+msgstr "Установить Все"
+
+msgid "Allready running %s"
+msgstr "Уже запущен %s"
+
+msgid "Check your system and reboot"
+msgstr "Перезагрузите систему"
+
+msgid "Error list ipk aviable"
+msgstr "Ошибка создания списка ipk"
+
+msgid "Adv. UnInstall"
+msgstr "Пр. Удаление"
+
+msgid "UnInstall"
+msgstr "Удаление"
+
+msgid "UnInstall Ipk"
+msgstr "Удаление Ipk"
+
+msgid "ecm.info Viewer"
+msgstr "Просмотрщик ecm.info"
+
+msgid "ecm.info file viewer"
+msgstr "Просмотр файла ecm.info"
+
+msgid "Restarting ..."
+msgstr "Перезагрузка ..."
+
+msgid "ReStart Both"
+msgstr "РеСтарт"
+
+msgid "Synchronization ntp every 30 min,60 min,120 min, 240 min and Now"
+msgstr "Синхронизация времени каждые 30 мин., 60 мин., 120 мин., 240 мин., ..."
+
+msgid "Synchronization NTP"
+msgstr "Синхронизация времени"
+
+msgid "Synchronization NTP time"
+msgstr "Синхронизация времени"
+
+msgid "%s min"
+msgstr "%s мин"
+
+msgid "%s hours"
+msgstr "%s час."
+
+msgid "Unmount usb devices"
+msgstr "Извлечение USB устройств"
+
+msgid "reFresh"
+msgstr "Обновить"
+
+msgid "UnMount USB"
+msgstr "Демонтирование USB"
+
+msgid "Unmounted %s Unsucessfull"
+msgstr "Демонтирование USB непроизведено"
+
+msgid "Unmounted %s"
+msgstr "Демонтирован %s"
+
+msgid "%s  %s  %s (%s free  %s used)"
+msgstr "%s  %s  %s (%s свободно  %s занято)"
+
+msgid "UnMount"
+msgstr "Извлечь"
+
+msgid "stopping"
+msgstr "остановлен"
+
+msgid "running"
+msgstr "работает"
+
+msgid "Status:"
+msgstr "Статус:"
+
+msgid "Check your internet connection"
+msgstr "Проверьте интернет соединение"
+
+msgid "Error dowload SoftCam list"
+msgstr "Ошибка загрузки списка эмуляторов"
+
+msgid "Error dowload CardServer list"
+msgstr "Ошибка загрузки списка кардсерверов"
+
+msgid "Start, Stop, Create, Remove Swap file on USB"
+msgstr "Запуск, Остановка, Создание, Удаление файла подкачки на USB"
+
+msgid "Start, Stop, Create, Remove Swap file on HDD"
+msgstr "Запуск, Остановка, Создание, Удаление файла подкачки на HDD"
+
+msgid "Manage Swap"
+msgstr "Управление файлом подкачки"
+
+msgid "Swap file removed"
+msgstr "Файл подкачки удален"
+
+msgid "Swap file created"
+msgstr "Файл подкачки создан"
+
+msgid "Swap file stoped"
+msgstr "Файл подкачки остановлен"
+
+msgid "Swap file started"
+msgstr "Файл подкачки запущен"
+
+msgid "Make swap on %s (128MB)"
+msgstr "Создать файл подкачки на %s (128MB)"
+
+msgid "Make swap on %s (256MB)"
+msgstr "Создать файл подкачки на %s (256MB)"
+
+msgid "Make swap on %s (512MB)"
+msgstr "Создать файл подкачки на %s (512MB)"
+
+msgid "Make swap"
+msgstr "Создать файл подкачки"
+
+msgid "Remove swap on %s (%s)"
+msgstr "Удалить файл подкачки на %s (%s)"
+
+msgid "Swap on %s on (%s)"
+msgstr "Включить файл подкачки на %s (%s)"
+
+msgid "Swap on %s off (%s)"
+msgstr "Отключить файл подкачки на %s (%s)"
+
+msgid "Remove swap"
+msgstr "Удалить файл подкачки"
+
+msgid "Swap on"
+msgstr "Включить файл подкачки"
+
+msgid "Swap off"
+msgstr "Отключить файл подкачки"
+
+msgid "Reload"
+msgstr "Перегрузить"
+
+msgid "Start Samba"
+msgstr "Старт Samba"
+
+msgid "Manage swap, ntp, unmount, script, info ..."
+msgstr "Синхронизация времени, скрипты, инфо, демонтирование usb ..."
+
+msgid "Service Tools"
+msgstr "Сервисные Утилиты"
+
+msgid "Tools"
+msgstr "Утилиты"
+
+msgid "Softcam"
+msgstr "Эмулятор"
+
+msgid "Scripts"
+msgstr "Скрипты"
+
+msgid "Install"
+msgstr "Установка"
+
+msgid "Simple Softcam/Cardserver"
+msgstr "Управление Эмуляторами и Кардсерверами"
+
+msgid "Start, Stop, Restart Sofcam/Cardserver"
+msgstr "Старт, Стоп, Рестарт Эмулятор/Кардсервер"
+
+msgid "Simple Softcam"
+msgstr "Управление Эмуляторами"
+
+msgid "Simple Cardserver"
+msgstr "Управление Кардсерверами"
+
+msgid "Start, Stop, Restart Cardserver"
+msgstr "Старт, Стоп, Рестарт Кардсервер"
+
+msgid "Start, Stop, Restart Sofcam"
+msgstr "Старт, Стоп, Рестарт Эмулятор"
+
+msgid "User Scripts"
+msgstr "Пользовательские Скрипты"
+
+msgid "Start scripts from /usr/script"
+msgstr "Запуск скриптов из /usr/script"
+
+msgid "Manual Installer/Uninstaller"
+msgstr "Ручная Установка/Удаление"
+
+msgid "install/uninstall local .ipk & .tar.gz files from /tmp"
+msgstr "локальная установка/удаление файлов .ipk & .tar.gz files из /tmp"
+
+msgid "Plugin Browser"
+msgstr "Обозреватель Плагинов"
+
+msgid "Install & Remove Plugins, Addons, Softcams"
+msgstr "установка и удаление плагинов, дополнений, эмуляторов"
+
+msgid "Full back-up and setting on USB/HDD"
+msgstr "Резервное копирование имиджа и установок на USB/HDD"
+
+msgid "Full 1:1 back-up and back-up setting"
+msgstr "Резервное копирование имиджа и установок"
+
+msgid "Full back-up on USB/HDD"
+msgstr "Полный бэкап на USB/HDD"
+
+msgid "Full back-up to USB"
+msgstr "Полный бэкап на USB"
+
+msgid "Full 1:1 back-up in USB format"
+msgstr "полный 1:1 бэкап в формате USB"
+
+msgid "Back-up suite not present, press OK for install it"
+msgstr "Back-up suite не установлен , нажмите OK для установки"
+
+msgid "Install *.tar.gz and *.ipk from /tmp "
+msgstr "Установка  *.tar.gz and *.ipk from /tmp "
+
+msgid "Install tar.gz"
+msgstr "Установка tar.gz"
+
+msgid "install local *.tar.gz from /tmp"
+msgstr "локальная установка *.tar.gz из /tmp"
+
+msgid "Install ipk"
+msgstr "Установка ipk"
+
+msgid "install local *.ipk from /tmp"
+msgstr "локальная установка *.ipk из /tmp"
+
+msgid "Andvanced Install ipk"
+msgstr "Расширеная установка ipk"
+
+msgid "install local *.ipk with -force-overwrite & -force-downgrade"
+msgstr "локальная установка *.ipk с -force-overwrite & -force-downgrade"
+
+msgid "Install from /tmp"
+msgstr "Установка из /tmp"
+
+msgid "Clear /tmp"
+msgstr "Очистка /tmp"
+
+msgid "remove *.ipk & *.tar.gz from /tmp"
+msgstr "удаление *.ipk & *.tar.gz из /tmp"
+
+msgid "Restart GUI"
+msgstr "Перезагрузка GUI"
+
+msgid "Active SoftCam:"
+msgstr "Активный SoftCam:"
+
+msgid "Stop"
+msgstr "Стоп"
+
+msgid "Start"
+msgstr "Старт"
+
+msgid "ReStart"
+msgstr "РеСтарт"
+

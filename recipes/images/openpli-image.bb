@@ -47,6 +47,7 @@ OPTIONAL_PACKAGES += " \
 			ntfs-3g \
 			mpd \
 			3rd-skins \
+			dvbapp2-plugin-extensions-easyplipanel \
 			"
 
 export IMAGE_BASENAME = "openpli"

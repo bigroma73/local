@@ -84,7 +84,7 @@ inherit gitpkgv
 
 PV = "2.7+git${SRCPV}"
 PKGV = "2.7+git${GITPKGV}"
-PR = "r29br"
+PR = "r30br"
 
 SRC_URI = "git://openpli.git.sourceforge.net/gitroot/openpli/enigma2;protocol=git \
 			http://localhost/spinner.tar.bz2;name=archive \
