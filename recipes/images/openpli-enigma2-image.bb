@@ -7,12 +7,12 @@ WIFI_DRIVERS = " \
 					kernel-module-ath9k-htc \
 					kernel-module-carl9170 \
 					kernel-module-rtl8187 \
-					kernel-module-rtl8192cu \
 					kernel-module-r8712u \
 					kernel-module-rt2500usb \
 					kernel-module-rt2800usb \
 					kernel-module-rt73usb \
 					kernel-module-zd1211rw \
+					rtl8192cu \
 					firmware-carl9170 \
 					firmware-htc9271 \
 					firmware-rt2870 \
@@ -34,7 +34,7 @@ ENIGMA2_PLUGINS = " \
 				enigma2-plugin-systemplugins-satfinder \
 				enigma2-plugin-systemplugins-videotune \
 				enigma2-plugin-extensions-mediascanner \
-				${@base_contains("MACHINE_FEATURES", "tpm", "enigma2-plugin-extensions-webinterface" , "", d)} \
+				enigma2-plugin-extensions-openwebif \
 				enigma2-plugin-extensions-graphmultiepg \
 				enigma2-plugin-systemplugins-skinselector \
 				enigma2-plugin-extensions-pictureplayer \
@@ -80,6 +80,7 @@ ENIGMA2_OPTIONAL = " \
 				dvdfs \
 				minidlna \
 				nano \
+				${@base_contains("MACHINE_FEATURES", "satscan", "enigma2-plugin-systemplugins-satscan" , "", d)} \
 				"
 
 IMAGE_INSTALL += " \

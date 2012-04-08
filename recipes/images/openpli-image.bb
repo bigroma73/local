@@ -46,7 +46,9 @@ OPTIONAL_PACKAGES += " \
 			rsync \
 			ntfs-3g \
 			mpd \
+			parted \
 			3rd-skins \
+			git \
 			dvbapp2-plugin-extensions-easyplipanel \
 			"
 
