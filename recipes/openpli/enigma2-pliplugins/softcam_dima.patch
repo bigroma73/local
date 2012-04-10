@@ -1,0 +1,624 @@
+diff -Naur git/PLi/SoftcamSetup/po/ru.po new/PLi/SoftcamSetup/po/ru.po
+--- git/PLi/SoftcamSetup/po/ru.po	2012-03-29 16:12:25.000000000 +0300
++++ new/PLi/SoftcamSetup/po/ru.po	2012-04-10 21:41:46.000000000 +0300
+@@ -1,70 +1,110 @@
+-# SOME DESCRIPTIVE TITLE.
+-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+-# This file is distributed under the same license as the PACKAGE package.
+-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+-#
+ msgid ""
+ msgstr ""
+-"Project-Id-Version: PACKAGE VERSION\n"
++"Project-Id-Version: tuxbox-enigma 0.0.1\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2012-03-06 11:52+0100\n"
+-"PO-Revision-Date: 2012-03-06 16:28+0100\n"
+-"Last-Translator: ims <ims21@users.sourceforge.net>\n"
+-"Language-Team: LANGUAGE <LL@li.org>\n"
+-"Language: \n"
++"POT-Creation-Date: 2011-01-27 12:42+0000\n"
++"PO-Revision-Date: 2012-02-12 21:42+0200\n"
++"Last-Translator: Dima73\n"
++"Language-Team: Dima <Dima-73@inbox.lv>\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
++"Language: ru\n"
++"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
++"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
++"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
++"|| n%100>=20) ? 1 : 2;\n"
++"X-Generator: Pootle 2.0.3\n"
++"X-Poedit-Language: Русский\n"
++"X-Poedit-SourceCharset: iso-8859-15\n"
++"X-Poedit-Country: RUSSIA\n"
+ 
+-#: plugin.py:9
+-msgid "Softcam setup..."
+-msgstr ""
++msgid "Cancel"
++msgstr "Отмена"
+ 
+-#: plugin.py:13
+-msgid "Softcam setup"
+-msgstr ""
++msgid "Changing keymap failed (%s)."
++msgstr "Ошибка применения быстрой кнопки (%s)."
+ 
+-#: plugin.py:13
+-msgid "Lets you configure your softcams"
+-msgstr ""
++msgid "Choice key"
++msgstr "Выбор кнопки"
+ 
+-#: Sc.py:63
+-msgid "Select Softcam"
+-msgstr ""
++msgid "Close plugin on restart emu"
++msgstr "Закрывать плагин после рестарта"
+ 
+-#: Sc.py:67
+-msgid "Select Card Server"
+-msgstr ""
++msgid "Green key"
++msgstr "Green"
+ 
+-#: Sc.py:69
+-msgid "Restart softcam"
+-msgstr ""
++msgid "Help key"
++msgstr "Help "
+ 
+-#: Sc.py:71
+-msgid "Restart cardserver"
+-msgstr ""
++msgid "Lets you configure your softcams"
++msgstr "Управление эмуляторами"
+ 
+-#: Sc.py:72
+-msgid "Restart both"
+-msgstr ""
++msgid "OK"
++msgstr "ОК"
+ 
+-#: Sc.py:74
+-msgid "Cancel"
+-msgstr ""
++msgid "Open plugin - cursor to restart emu"
++msgstr "Открыть плагин - курсор на рестарте эму"
+ 
+-#: Sc.py:75
+-msgid "OK"
+-msgstr ""
++msgid "Please wait, restarting cardserver."
++msgstr "Подождите, выполняется рестарт выбранного кардсервера."
+ 
+-#: Sc.py:91
+ msgid "Please wait, restarting softcam and cardserver."
+-msgstr ""
++msgstr "Подождите, выполняется рестарт эмулятора и кардсервера."
+ 
+-#: Sc.py:93
+ msgid "Please wait, restarting softcam."
+-msgstr ""
++msgstr "Подождите, выполняется рестарт выбранного эмулятора."
+ 
+-#: Sc.py:95
+-msgid "Please wait, restarting cardserver."
+-msgstr ""
++msgid "Quick button"
++msgstr "Быстрая кнопка"
++
++msgid "Restart both"
++msgstr "Обе перезагрузки"
++
++msgid "Restart cardserver"
++msgstr "Рестарт кардсервера"
++
++msgid "Restart softcam"
++msgstr "Рестарт эмулятора"
++
++msgid "Select Card Server"
++msgstr "Выбор кардсервера"
++
++msgid "Select Softcam"
++msgstr "Выбор эмулятора"
++
++msgid "Settings menu"
++msgstr "Меню настроек плагина"
++
++msgid "Setup"
++msgstr "Настройка"
++
++msgid "Show ecm.info"
++msgstr "Показать ecm.info"
++
++msgid "Show plugin extensions menu"
++msgstr "Показать плагин в меню дополнений"
++
++msgid "Softcam Setup"
++msgstr "Настройки Эмуляторов"
++
++msgid "Softcam setup"
++msgstr "Настройки эмуляторов"
++
++msgid "Softcam setup..."
++msgstr "Настройки эмуляторов..."
++
++msgid "TEXT key"
++msgstr "TEXT"
++
++msgid "The choice of restarting"
++msgstr "Выбор перезагрузки"
++
++msgid "restart both"
++msgstr "обе перезагрузки"
++
++msgid "restart cardserver"
++msgstr "рестарт кардсервера"
+ 
++msgid "restart softcam"
++msgstr "рестарт эмулятора"
+diff -Naur git/PLi/SoftcamSetup/src/Makefile.am new/PLi/SoftcamSetup/src/Makefile.am
+--- git/PLi/SoftcamSetup/src/Makefile.am	2012-03-29 16:12:25.000000000 +0300
++++ new/PLi/SoftcamSetup/src/Makefile.am	2012-04-10 22:01:35.000000000 +0300
+@@ -1,4 +1,4 @@
+ installdir = $(LIBDIR)/enigma2/python/Plugins/PLi/SoftcamSetup
+ 
+ install_PYTHON = *.py
+- 
++install_DATA = *.xml
+diff -Naur git/PLi/SoftcamSetup/src/Sc.py new/PLi/SoftcamSetup/src/Sc.py
+--- git/PLi/SoftcamSetup/src/Sc.py	2012-03-29 16:12:25.000000000 +0300
++++ new/PLi/SoftcamSetup/src/Sc.py	2012-04-10 12:22:15.000000000 +0300
+@@ -6,12 +6,33 @@
+ from Components.ActionMap import ActionMap, NumberActionMap
+ from Components.Button import Button
+ from Components.Label import Label
+-from Components.config import config, ConfigElement, ConfigSubsection, ConfigSelection, ConfigSubList, getConfigListEntry, KEY_LEFT, KEY_RIGHT, KEY_OK
+-from Components.ConfigList import ConfigList
+-from Components.Pixmap import Pixmap
++from Components.config import config, ConfigElement, ConfigSubsection, ConfigSelection, ConfigSubList, getConfigListEntry, ConfigYesNo, ConfigEnableDisable, KEY_LEFT, KEY_RIGHT, KEY_OK
++from Components.ConfigList import ConfigList, ConfigListScreen
++from Components.Pixmap import Pixmap, MultiPixmap
++from Tools.Directories import fileExists
++from Components.ScrollLabel import ScrollLabel
++from Components.Sources.StaticText import StaticText
+ import os
+ from camcontrol import CamControl
+ from enigma import eTimer, eDVBCI_UI, eListboxPythonStringContent, eListboxPythonConfigContent
++from GlobalActions import globalActionMap
++from Tools import Notifications
++import keymapparser
++import os.path
++
++PACKAGE_PATH = os.path.dirname(str((globals())["__file__"]))
++KEYMAPPINGS = {"green": os.path.join(PACKAGE_PATH, "keymap-green.xml"), "help": os.path.join(PACKAGE_PATH, "keymap-help.xml"), "text": os.path.join(PACKAGE_PATH, "keymap-text.xml")}
++
++config.plugins.Softcamsetup = ConfigSubsection()
++config.plugins.Softcamsetup.MenuExt = ConfigYesNo(default = False)
++config.plugins.Softcamsetup.quickButton = ConfigEnableDisable(default = False)
++config.plugins.Softcamsetup.keymapBut = ConfigSelection([("green", _("Green key")),("help", _("Help key")),("text", _("TEXT key"))], default="help")
++config.plugins.Softcamsetup.RestartLine = ConfigYesNo(default = False)
++config.plugins.Softcamsetup.RestartChoice = ConfigSelection([("1", _("restart softcam")),("2", _("restart cardserver")),("3", _("restart both"))], default="1")
++config.plugins.Softcamsetup.showEcm = ConfigYesNo(default = False)
++config.plugins.Softcamsetup.CloseOnRestart = ConfigYesNo(default = True)
++
++quick_softcam_setup = None
+ 
+ class ConfigAction(ConfigElement):
+ 	def __init__(self, action, *args):
+@@ -24,14 +45,30 @@
+ 			self.action(*self.actionargs) 
+ 
+ class ScSelection(Screen):
+-	skin = """
+-        <screen name="ScSelection" position="center,center" size="560,230" title="Softcam Setup">
+-                <widget name="entries" position="5,10" size="550,140" />
+-                <ePixmap name="red" position="0,190" zPosition="1" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
+-                <ePixmap name="green" position="140,190" zPosition="1" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
+-                <widget name="key_red" position="0,190" zPosition="2" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" shadowColor="black" shadowOffset="-1,-1" />
+-                <widget name="key_green" position="140,190" zPosition="2" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" shadowColor="black" shadowOffset="-1,-1" />
+-        </screen>"""
++	if config.plugins.Softcamsetup.showEcm.value:
++		skin = """
++			<screen name="ScSelection" position="center,center" size="650,400" title="Softcam Setup">
++				<widget name="entries" position="5,10" size="630,135" />
++				<widget name="text" position="5,125" size="345,260" zPosition="2"  font="Regular;17" />
++				<widget name="text1" position="350,125" size="320,260" zPosition="2"  font="Regular;17" />
++				<ePixmap name="red" position="10,360" zPosition="1" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
++				<ePixmap name="green" position="250,360" zPosition="1" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
++				<ePixmap name="blue" position="500,360" zPosition="1" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" />
++				<widget name="key_red" position="10,360" zPosition="2" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" shadowColor="black" shadowOffset="-1,-1" />
++				<widget name="key_green" position="250,360" zPosition="2" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" shadowColor="black" shadowOffset="-1,-1" />
++				<widget name="key_blue" position="500,360" zPosition="2" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" shadowColor="black" shadowOffset="-1,-1" />								
++			</screen>"""	
++	else:
++		skin = """
++			<screen name="ScSelection" position="center,center" size="560,230" title="Softcam Setup">
++				<widget name="entries" position="5,10" size="550,140" />
++				<ePixmap name="red" position="0,190" zPosition="1" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
++				<ePixmap name="green" position="200,190" zPosition="1" size="140,40" pixmap="skin_default/buttons/green.png" transparent="1" alphatest="on" />
++				<ePixmap name="blue" position="420,190" zPosition="1" size="140,40" pixmap="skin_default/buttons/blue.png" transparent="1" alphatest="on" />
++				<widget name="key_red" position="0,190" zPosition="2" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" shadowColor="black" shadowOffset="-1,-1" />
++				<widget name="key_green" position="200,190" zPosition="2" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" shadowColor="black" shadowOffset="-1,-1" />
++				<widget name="key_blue" position="420,190" zPosition="2" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" shadowColor="black" shadowOffset="-1,-1" />
++			</screen>"""
+ 	def __init__(self, session):
+ 		Screen.__init__(self, session)
+ 
+@@ -43,7 +80,17 @@
+ 				"ok": self.ok,
+ 				"green": self.save,
+ 				"red": self.cancel,
++				"blue": self.keyBlue,
+ 			},-1)
++			
++		self.setTitle(_("Softcam Setup"))
++		if config.plugins.Softcamsetup.showEcm.value:
++			self["text"] = ScrollLabel()
++			self["text1"] = ScrollLabel()
++			self.timer = eTimer()
++			self.timer.callback.append(self.listServices)
++			self.timer.callback.append(self.listServices1)
++			self.timer.start(50, True)
+ 
+ 		self.list = [ ]
+ 
+@@ -60,20 +107,54 @@
+ 
+ 		self.softcams = ConfigSelection(choices = softcams)
+ 		self.softcams.value = self.softcam.current()
+-
+-		self.list.append(getConfigListEntry(_("Select Softcam"), self.softcams))
+-		if cardservers:
+-			self.cardservers = ConfigSelection(choices = cardservers)
+-			self.cardservers.value = self.cardserver.current()
+-			self.list.append(getConfigListEntry(_("Select Card Server"), self.cardservers))
+-
+-		self.list.append(getConfigListEntry(_("Restart softcam"), ConfigAction(self.restart, "s")))
+-		if cardservers: 
+-			self.list.append(getConfigListEntry(_("Restart cardserver"), ConfigAction(self.restart, "c"))) 
+-			self.list.append(getConfigListEntry(_("Restart both"), ConfigAction(self.restart, "sc"))) 
++		
++		if config.plugins.Softcamsetup.RestartLine.value:
++			if config.plugins.Softcamsetup.RestartChoice.value == "1":
++				self.list.append(getConfigListEntry(_("Restart softcam"), ConfigAction(self.restart, "s")))
++				self.list.append(getConfigListEntry(_("Select Softcam"), self.softcams))
++				if cardservers:
++					self.cardservers = ConfigSelection(choices = cardservers)
++					self.cardservers.value = self.cardserver.current()
++					self.list.append(getConfigListEntry(_("Select Card Server"), self.cardservers))
++				if cardservers: 
++					self.list.append(getConfigListEntry(_("Restart cardserver"), ConfigAction(self.restart, "c"))) 
++					self.list.append(getConfigListEntry(_("Restart both"), ConfigAction(self.restart, "sc"))) 
++			elif config.plugins.Softcamsetup.RestartChoice.value == "2":
++				if cardservers:
++					self.cardservers = ConfigSelection(choices = cardservers)
++					self.cardservers.value = self.cardserver.current()
++					self.list.append(getConfigListEntry(_("Restart cardserver"), ConfigAction(self.restart, "c"))) 
++				self.list.append(getConfigListEntry(_("Select Softcam"), self.softcams))	
++				if cardservers: 
++					self.list.append(getConfigListEntry(_("Select Card Server"), self.cardservers))
++				self.list.append(getConfigListEntry(_("Restart softcam"), ConfigAction(self.restart, "s")))
++				if cardservers: 
++					self.list.append(getConfigListEntry(_("Restart both"), ConfigAction(self.restart, "sc"))) 
++			elif config.plugins.Softcamsetup.RestartChoice.value == "3":
++				if cardservers:
++					self.cardservers = ConfigSelection(choices = cardservers)
++					self.cardservers.value = self.cardserver.current()
++					self.list.append(getConfigListEntry(_("Restart both"), ConfigAction(self.restart, "sc"))) 
++				self.list.append(getConfigListEntry(_("Select Softcam"), self.softcams))	
++				if cardservers:
++					self.list.append(getConfigListEntry(_("Select Card Server"), self.cardservers))
++				self.list.append(getConfigListEntry(_("Restart softcam"), ConfigAction(self.restart, "s")))
++				if cardservers: 
++					self.list.append(getConfigListEntry(_("Restart cardserver"), ConfigAction(self.restart, "c")))  
++		else:
++			self.list.append(getConfigListEntry(_("Select Softcam"), self.softcams))
++			if cardservers:
++				self.cardservers = ConfigSelection(choices = cardservers)
++				self.cardservers.value = self.cardserver.current()
++				self.list.append(getConfigListEntry(_("Select Card Server"), self.cardservers))
++			self.list.append(getConfigListEntry(_("Restart softcam"), ConfigAction(self.restart, "s")))
++			if cardservers: 
++				self.list.append(getConfigListEntry(_("Restart cardserver"), ConfigAction(self.restart, "c"))) 
++				self.list.append(getConfigListEntry(_("Restart both"), ConfigAction(self.restart, "sc"))) 
+ 
+ 		self["key_red"] = Label(_("Cancel"))
+ 		self["key_green"] = Label(_("OK"))
++		self["key_blue"] = Label(_("Setup"))
+ 
+ 	def keyLeft(self):
+ 		self["entries"].handleKey(KEY_LEFT)
+@@ -123,7 +204,8 @@
+ 			self.softcam.command('start')
+ 		if self.mbox:
+ 			self.mbox.close()
+-		self.close()
++		if config.plugins.Softcamsetup.CloseOnRestart.value:	
++			self.close()
+ 		self.session.nav.playService(self.oldref)
+ 		del self.oldref
+ 
+@@ -133,6 +215,43 @@
+ 	
+ 	def restartSoftcam(self):
+ 		self.restart("s")
++		
++	def keyBlue(self):
++		self.session.open(ScSetupScreen)
++
++	def listServices(self):
++		list = "\n"
++		prev_mtime = None
++		if fileExists("/tmp/ecm.info"):
++			try:
++				st = os.stat("/tmp/ecm.info")
++				if st.st_size > 0 and prev_mtime < st.st_mtime:
++					prev_mtime = st.st_mtime
++					fdd = open("/tmp/ecm.info", "r")
++					for line in fdd:
++						list += line
++					fdd.close()
++			except:
++				pass
++		self["text"].setText(list)
++		self.timer.start(2000, True)
++		
++	def listServices1(self):
++		list1 = "\n"
++		prev1_mtime = None
++		if fileExists("/tmp/ecm1.info"):
++			try:
++				st1 = os.stat("/tmp/ecm1.info")
++				if st1.st_size > 0 and prev1_mtime < st1.st_mtime:
++					prev1_mtime = st1.st_mtime
++					fd = open("/tmp/ecm1.info", "r")
++					for line in fd:
++						list1 += line
++					fd.close()
++			except:
++				pass
++		self["text1"].setText(list1)
++		self.timer.start(2000, True)		
+ 
+ 	def save(self):
+ 		what = ''
+@@ -147,3 +266,167 @@
+ 
+ 	def cancel(self):
+ 		self.close()
++
++class ScSetupScreen(Screen, ConfigListScreen):
++	skin = """
++		<screen position="center,center" size="570,260" title="Settings menu">
++			<ePixmap pixmap="skin_default/buttons/red.png" position="10,0" size="140,40" alphatest="on" />
++			<ePixmap pixmap="skin_default/buttons/green.png" position="420,0" size="140,40" alphatest="on" />
++			<widget name="green" position="420,0" size="140,40" valign="center" halign="center" zPosition="1" font="Regular;21" transparent="1" backgroundColor="blue" />
++			<widget name="red" position="10,0" size="140,40" valign="center" halign="center" zPosition="1" font="Regular;21" transparent="1" backgroundColor="green" />
++			<widget name="config" position="10,50" size="550,190" font="Regular;20" />
++		</screen>
++		""" 
++	def __init__(self, session, args = None):
++		self.skin = ScSetupScreen.skin
++		self.setup_title = _("Settings menu")
++		Screen.__init__(self, session)
++		
++		self["red"] = Button(_("Cancel"))
++		self["green"] = Button(_("OK"))
++		
++		self["actions"] = ActionMap(["SetupActions", "ColorActions"], 
++		{
++			"ok": self.keyOk,
++			"save": self.keyGreen,
++			"cancel": self.keyRed,
++		}, -2)
++
++		ConfigListScreen.__init__(self, [])
++		self.initConfig()
++		self.createSetup()
++
++
++		self.onClose.append(self.__closed)
++		self.onLayoutFinish.append(self.__layoutFinished)
++		
++
++	def __closed(self):
++		pass
++		
++	def __layoutFinished(self):
++		self.setTitle(self.setup_title)
++		
++	def initConfig(self):
++		def getPrevValues(section):
++			res = { }
++			for (key,val) in section.content.items.items():
++				if isinstance(val, ConfigSubsection):
++					res[key] = getPrevValues(val)
++				else:
++					res[key] = val.value
++			return res
++		
++		self.SC = config.plugins.Softcamsetup
++		self.prev_values  = getPrevValues(self.SC)
++		self.cfg_MenuExt = getConfigListEntry(_("Show plugin extensions menu"), config.plugins.Softcamsetup.MenuExt)
++		self.cfg_quickButton = getConfigListEntry(_("Quick button"), config.plugins.Softcamsetup.quickButton)
++		self.cfg_keymapBut = getConfigListEntry(_("Choice key"), config.plugins.Softcamsetup.keymapBut)
++		self.cfg_RestartLine = getConfigListEntry(_("Open plugin - cursor to restart emu"), config.plugins.Softcamsetup.RestartLine)
++		self.cfg_RestartChoice = getConfigListEntry(_("The choice of restarting"), config.plugins.Softcamsetup.RestartChoice)
++		self.cfg_showEcm = getConfigListEntry(_("Show ecm.info"), config.plugins.Softcamsetup.showEcm)
++		self.cfg_CloseOnRestart = getConfigListEntry(_("Close plugin on restart emu"), config.plugins.Softcamsetup.CloseOnRestart)
++
++	def createSetup(self):
++		list = [ self.cfg_MenuExt ]
++		list.append(self.cfg_quickButton)
++		if config.plugins.Softcamsetup.quickButton.value:
++			list.append(self.cfg_keymapBut)
++		list.append(self.cfg_RestartLine)
++		if config.plugins.Softcamsetup.RestartLine.value:
++			list.append(self.cfg_RestartChoice)
++		list.append(self.cfg_showEcm)
++		if config.plugins.Softcamsetup.showEcm.value:
++			list.append(self.cfg_CloseOnRestart)
++		self["config"].list = list
++		self["config"].l.setList(list)
++
++	def newConfig(self):
++		cur = self["config"].getCurrent()
++		if cur in (self.cfg_MenuExt, self.cfg_quickButton, self.cfg_keymapBut, self.cfg_RestartLine, self.cfg_RestartChoice, self.cfg_showEcm, self.cfg_CloseOnRestart):
++			self.createSetup()
++
++
++	def keyOk(self):
++		pass
++
++	def keyRed(self):
++		def setPrevValues(section, values):
++			for (key,val) in section.content.items.items():
++				value = values.get(key, None)
++				if value is not None:
++					if isinstance(val, ConfigSubsection):
++						setPrevValues(val, value)
++					else:
++						val.value = value
++		setPrevValues(self.SC, self.prev_values)
++		self.keyGreen()
++
++	def keyGreen(self):
++		global quick_softcam_setup
++		
++		if config.plugins.Softcamsetup.quickButton.isChanged():
++			if config.plugins.Softcamsetup.quickButton.value:
++				quick_softcam_setup = QuickSoftcamSetup(self.session)
++				quick_softcam_setup.enable()
++			elif quick_softcam_setup is not None:
++				quick_softcam_setup.disable()
++		elif quick_softcam_setup is not None:
++			if config.plugins.Softcamsetup.keymapBut.isChanged():
++				quick_softcam_setup.change_keymap(config.plugins.Softcamsetup.keymapBut.value)
++		if not config.plugins.Softcamsetup.RestartLine.value:
++			self.SC.RestartChoice.value = "1"
++		if not config.plugins.Softcamsetup.showEcm.value:
++			self.SC.CloseOnRestart.value = True
++		self.SC.save()
++		self.close()
++		
++
++	def keyLeft(self):
++		ConfigListScreen.keyLeft(self)
++		self.newConfig()
++
++	def keyRight(self):
++		ConfigListScreen.keyRight(self)
++		self.newConfig()
++		
++class QuickSoftcamSetup:
++
++	def __init__(self, session):
++		self.session = session
++		
++	def change_keymap(self, keymap):
++		if keymap not in KEYMAPPINGS:
++			return
++		self.unload_keymap()
++		try:
++			keymapparser.readKeymap(KEYMAPPINGS[keymap])
++		except IOError, (errno, strerror):
++			config.plugins.Softcamsetup.quickButton.setValue(False)
++			self.disable()
++			Notifications.AddPopup(text=_("Changing keymap failed (%s).") % strerror, type=MessageBox.TYPE_ERROR, timeout=10, id='QuickSoftcamSetup')
++			return
++		global globalActionMap
++		globalActionMap.actions['quickSoftcamSetup'] = self.quickSoftcamSetup
++	
++
++	def unload_keymap(self):
++		for keymap in KEYMAPPINGS.values():
++			keymapparser.removeKeymap(keymap)
++		
++		global globalActionMap
++		if 'quickSoftcamSetup' in globalActionMap.actions:
++			del globalActionMap.actions['quickSoftcamSetup']
++
++	def enable(self):
++		self.change_keymap(config.plugins.Softcamsetup.keymapBut.value)
++
++	
++	def disable(self):
++		global quick_softcam_setup
++		self.unload_keymap()
++		quick_softcam_setup = None
++
++	def quickSoftcamSetup(self):
++		self.session.open(ScSelection)
++		
+diff -Naur git/PLi/SoftcamSetup/src/keymap-green.xml new/PLi/SoftcamSetup/src/keymap-green.xml
+--- git/PLi/SoftcamSetup/src/keymap-green.xml	1970-01-01 03:00:00.000000000 +0300
++++ new/PLi/SoftcamSetup/src/keymap-green.xml	2012-04-10 12:22:15.000000000 +0300
+@@ -0,0 +1,5 @@
++<keymap>
++	<map context="GlobalActions">
++		<key id="KEY_GREEN" mapto="quickSoftcamSetup" flags="m" />
++	</map>
++</keymap>
+\ No newline at end of file
+diff -Naur git/PLi/SoftcamSetup/src/keymap-help.xml new/PLi/SoftcamSetup/src/keymap-help.xml
+--- git/PLi/SoftcamSetup/src/keymap-help.xml	1970-01-01 03:00:00.000000000 +0300
++++ new/PLi/SoftcamSetup/src/keymap-help.xml	2012-04-10 12:22:15.000000000 +0300
+@@ -0,0 +1,5 @@
++<keymap>
++	<map context="GlobalActions">
++		<key id="KEY_HELP" mapto="quickSoftcamSetup" flags="m" />
++	</map>
++</keymap>
+\ No newline at end of file
+diff -Naur git/PLi/SoftcamSetup/src/keymap-text.xml new/PLi/SoftcamSetup/src/keymap-text.xml
+--- git/PLi/SoftcamSetup/src/keymap-text.xml	1970-01-01 03:00:00.000000000 +0300
++++ new/PLi/SoftcamSetup/src/keymap-text.xml	2012-04-10 12:22:15.000000000 +0300
+@@ -0,0 +1,5 @@
++<keymap>
++	<map context="GlobalActions">
++		<key id="KEY_TEXT" mapto="quickSoftcamSetup" flags="m" />
++	</map>
++</keymap>
+\ No newline at end of file
+diff -Naur git/PLi/SoftcamSetup/src/plugin.py new/PLi/SoftcamSetup/src/plugin.py
+--- git/PLi/SoftcamSetup/src/plugin.py	2012-03-29 16:12:25.000000000 +0300
++++ new/PLi/SoftcamSetup/src/plugin.py	2012-04-10 12:22:15.000000000 +0300
+@@ -1,5 +1,18 @@
+ from . import _
+ from Plugins.Plugin import PluginDescriptor
++from Sc import *
++
++def sessionstart(reason, session, **kwargs):
++	global quick_softcam_setup
++	if reason == 0: 
++		if config.plugins.Softcamsetup.quickButton.value and quick_softcam_setup is None:
++			quick_softcam_setup = QuickSoftcamSetup( session )
++			quick_softcam_setup.enable()
++
++def autostart(reason, **kwargs):
++	if reason == 1:
++		if quick_softcam_setup is not None:
++			quick_softcam_setup.disable()
+ 
+ def main(session, **kwargs):
+ 	import Sc
+@@ -11,4 +24,14 @@
+ 	return []
+ 
+ def Plugins(**kwargs):
+-	return PluginDescriptor(name = "Softcam setup", description = "Lets you configure your softcams", where = PluginDescriptor.WHERE_MENU, fnc = menu)
++	if config.plugins.Softcamsetup.MenuExt.value:
++		return [PluginDescriptor(name = _("Softcam setup"), description = _("Lets you configure your softcams"), where = PluginDescriptor.WHERE_MENU, fnc = menu),
++				PluginDescriptor(name = _("Softcam setup"), description= _("Lets you configure your softcams"), where = PluginDescriptor.WHERE_EXTENSIONSMENU, fnc= main),
++				PluginDescriptor(where = PluginDescriptor.WHERE_SESSIONSTART, fnc= sessionstart),
++				PluginDescriptor(where = PluginDescriptor.WHERE_AUTOSTART, fnc= autostart),
++			]
++	else:
++		return [PluginDescriptor(name = _("Softcam setup"), description = _("Lets you configure your softcams"), where = PluginDescriptor.WHERE_MENU, fnc = menu),
++				PluginDescriptor(where = PluginDescriptor.WHERE_SESSIONSTART, fnc= sessionstart),
++				PluginDescriptor(where = PluginDescriptor.WHERE_AUTOSTART, fnc= autostart),
++			]
