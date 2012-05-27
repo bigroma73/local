@@ -47,6 +47,7 @@ OPTIONAL_PACKAGES += " \
 			ntfs-3g \
 			mpd \
 			parted \
+			dosfstools \
 			3rd-skins \
 			git \
 			dvbapp2-plugin-extensions-easyplipanel \
